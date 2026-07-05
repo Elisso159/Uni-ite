@@ -1,0 +1,260 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-dark: #1a1c20;          
+    --container-bg: #24272c;       
+    --vibrant-red: #ff1e1e;        
+    --vibrant-hover: #d60000;     
+    --text-white: #ffffff;        
+    --text-muted: #abb2bf;        
+    --input-bg: #15171a;           
+    --border-color: #3e4451;       
+}
+
+/*Για το index.html και register.html*/
+.login-body {
+    background-color: var(--bg-dark); 
+    height: 100vh;
+    display: flex;                  
+    justify-content: center;        
+    align-items: center;            
+    padding: 20px;
+}
+
+.login-container {
+    background-color: var(--container-bg);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 30, 30, 0.1); 
+    width: 100%;
+    max-width: 450px;               
+    text-align: center;
+    border: 1px solid #333842;
+}
+
+
+.login-logo {
+    color: var(--vibrant-red);     
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    
+}
+
+.login-logo-subtitle1 {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+    color: var(--text-white);      
+    font-weight: 700;
+}
+
+.login-subtitle2 {
+    color: var(--text-muted);      
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+    line-height: 1.4;
+}
+
+
+.login-form {
+    text-align: left;               
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-white);     
+}
+
+.form-group input,
+.form-group .app-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color); 
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background-color: var(--input-bg);
+    color: var(--text-white);      
+    transition: all 0.25s ease;     
+    outline: none;
+}
+
+
+.form-group input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+
+.form-group .app-select option {
+    background-color: var(--container-bg);
+    color: var(--text-white);      
+}
+
+
+.form-group input:focus,
+.form-group .app-select:focus {
+    border-color: var(--vibrant-red);
+    box-shadow: 0 0 8px rgba(255, 30, 30, 0.4);
+}
+
+.login-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--vibrant-red);
+    color: var(--text-white);            
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(255, 30, 30, 0.2);
+}
+
+.login-submit-btn:hover {
+    background-color: var(--vibrant-hover);
+    box-shadow: 0 4px 16px rgba(255, 30, 30, 0.3);
+}
+
+.form-footer {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-footer a {
+    color: var(--vibrant-red);     
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.2s;
+}
+
+.form-footer a:hover {
+    color: var(--vibrant-hover);
+    text-decoration: underline;    
+}
+
+
+/*Για το student.html*/
+.logo-student{
+    position:fixed;
+    top: 10px;
+    left:200px;
+    color:#f60404;
+    font-size:2.5rem;
+    font-weight:900;
+    letter-spacing: 1px;
+    font-family:"Impact", "Arial", sans-serif;
+    text-transform: uppercase;
+    z-index: 100;}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85); 
+    display: flex;
+    justify-content: center;        
+    align-items: center;            
+    z-index: 999;                  
+}
+
+
+.modal-box {
+    background-color: #24272c;      
+    padding: 40px 30px;
+    border-radius: 12px;
+    border: 1px solid #333842;    
+    width: 90%;                     
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 30, 30, 0.15); 
+}
+
+
+.modal-box > p {
+    color: #ffffff;                 
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+
+.modal-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
+.choice-btn {
+    background-color: #15171a;       
+    border: 1px solid #3e4451;      
+    border-radius: 8px;
+    padding: 25px 15px;
+    cursor: pointer;
+    transition: all 0.25s ease;     
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.choice-btn h3 {
+    color: #ffffff;                 
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    transition: color 0.25s ease;
+}
+
+
+.choice-btn p {
+    color: #abb2bf;                
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+.choice-btn:hover {
+    border-color: #ff1e1e;          
+    transform: translateY(-4px);    
+    box-shadow: 0 6px 20px rgba(255, 30, 30, 0.2); 
+    background-color: #1a1c20;
+}
+
+.choice-btn:hover h3 {
+    color: #ff1e1e;                 
+}
+
+@media (max-width: 500px) {
+    .modal-choices {
+        grid-template-columns: 1fr; 
+        gap: 15px;
+    }
+    
+    .modal-box {
+        padding: 30px 20px;
+    }
+}
+
