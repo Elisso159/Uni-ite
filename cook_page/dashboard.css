@@ -1,0 +1,25 @@
+/* dashboard.css - Ειδικά στοιχεία σελίδων */
+.dashboard-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0 20px 0;
+    background: #1f2225;
+    border: 1px solid #32383e;
+    color: white;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #ff2e2e;
+    outline: none;
+}
+
+h2 {
+    color: #ff2e2e;
+}

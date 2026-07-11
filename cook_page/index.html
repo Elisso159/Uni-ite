@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Μάγειρα - UniBite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h1>Dashboard Μάγειρα</h1>
+
+        <div class="card points-card">
+            <h2>Οι Πόντοι μου</h2>
+            <div class="points-value">42</div>
+            <p>Συνολικοί πόντοι προσφοράς</p>
+        </div>
+
+        <section class="card">
+            <h2>Διαχείριση Αγγελιών</h2>
+            <button class="btn-primary" onclick="window.location.href='create_ad.html'">
+                Δημιουργία Νέας Αγγελίας
+            </button>
+            <table class="data-table">
+                <tr>
+                    <th>Τίτλος</th>
+                    <th>Μερίδες</th>
+                    <th>Ενέργειες</th>
+                </tr>
+                <tr>
+                    <td>Σπανακόρυζο</td>
+                    <td>3</td>
+                    <td><button class="btn-edit">Edit</button> <button class="btn-del">Delete</button></td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="card">
+            <h2>Εισερχόμενα Αιτήματα</h2>
+            <div class="request-item">
+                <p><strong>Γιάννης Π.</strong> ζήτησε 1 μερίδα για σήμερα.</p>
+                <div>
+                    <button class="btn-approve">Approve</button>
+                    <button class="btn-reject">Reject</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

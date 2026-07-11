@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Δημιουργία Αγγελίας - UniBite</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="create_ad.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <a href="index.html" style="color: #ff2e2e;">← Πίσω στο Dashboard</a>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h2 style="color: #ff2e2e;">Δημιουργία Νέας Αγγελίας</h2>
+            <form action="/submit-ad" method="POST" enctype="multipart/form-data">
+    <br>
+    <label>Τίτλος Γεύματος:</label>
+    <input type="text" name="title" required>
+    </br>
+
+    <br>
+    <label>Φωτογραφία (Προαιρετικά):</label>
+    <input type="file" name="photo" accept="image/*">
+    </br>
+
+    <br>
+    <label>Σημείο Παράδοσης (π.χ. Κτίριο/Δωμάτιο):</label>
+    <input type="text" name="location" required>
+    </br>
+
+    <br>
+    <label>Ώρα Παραλαβής:</label>
+    <input type="time" name="delivery_time" required>
+    </br>
+
+    <br>
+    <label>Ελεύθερες Σημειώσεις:</label>
+    <textarea name="notes" placeholder="Περιγράψτε το γεύμα..."></textarea>
+    </br>
+
+    <br>
+    <label>Αλλεργιογόνα (π.χ. Ξηροί καρποί, Γλουτένη):</label>
+    <input type="text" name="allergens">
+    <br>
+
+    <be>
+    <button type="submit" class="btn-primary">Δημοσίευση Αγγελίας</button>
+    </br>
+</form>
+        </div>
+    </div>
+
+</body>
+</html>

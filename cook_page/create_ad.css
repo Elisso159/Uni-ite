@@ -1,0 +1,32 @@
+/* create_ad.css - Ειδικά για τη σελίδα δημιουργίας */
+
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    color: #ff2e2e; /* Το κόκκινο χρώμα στους τίτλους των πεδίων */
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+/* Ειδική μορφοποίηση για το file input αν χρειαστεί */
+input[type="file"] {
+    background: transparent;
+    border: 2px dashed #32383e;
+    padding: 20px;
+    text-align: center;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 1.1em;
+}
