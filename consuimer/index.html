@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniBite - Σύνδεση</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login_register_style.css">
 </head>
 <body class="login-body">
 
     <div class="login-container">
-        <h1 class="login-logo">UniBite</h1>
+        <h1 class="login-logo">UniBite🍖</h1>
         <h2 class="login-logo-subtitle1">Καλώς ήρθες στο UniBite!</h2>
         <p class="login-subtitle2">Μαγειρεύεις; Μοιράσου το. Πεινάς; Φάε σπιτικά!</p>
         
-        <form class="login-form" id="loginForm">
+        <form class="login-form" id="loginForm" onsubmit="event.preventDefault();">
             <div class="form-group">
                 <label for="email">Ακαδημαϊκό Email</label>
                 <input type="email" id="email" required placeholder="username@university.gr">
@@ -31,6 +31,6 @@
             </div>
         </form>
     </div>
-
+    <script src="login.js"></script>
 </body>
 </html>

@@ -1,0 +1,333 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-dark: #1a1c20;          
+    --container-bg: #24272c;       
+    --vibrant-red: #ff1e1e;        
+    --vibrant-hover: #d60000;     
+    --text-white: #ffffff;        
+    --text-muted: #abb2bf;        
+    --input-bg: #15171a;           
+    --border-color: #3e4451;       
+}
+
+.consumer-body {
+    background-color: #1a1c20;
+    color: #ffffff;
+}
+
+
+.navbar {
+    background-color: #24272c;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333842;
+}
+
+.nav-logo {
+    color: #dd0505;                   
+    font-size: 1.5rem;                
+    font-weight: bold;                
+    text-transform: none;             
+    font-family: 'Segoe UI', sans-serif; 
+    display: block;
+    text-align: left;
+}
+
+.nav-badge {
+    font-size: 0.9rem;
+    background-color: #15171a;
+    color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-family: Arial, sans-serif;
+}
+
+.points-indicator {
+    background-color: #15171a;
+    padding: 8px 15px;
+    border-radius: 6px;
+    border: 1px solid #ff1e1e;
+    font-weight: bold;
+}
+
+.nav-logout-btn {
+    color: #abb2bf;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.95rem;
+}
+
+.nav-logout-btn:hover {
+    color: #ff1e1e;
+}
+
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 30px;
+    padding: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+
+.filters-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    background-color: #24272c;
+    padding: 25px;
+    border-radius: 14px;
+    border: 3px solid #333842;
+    align-items: center; 
+    flex-wrap: wrap; 
+    box-sizing: border-box;
+    width: 100%;             
+    max-width: 100%;        
+    justify-content: center; 
+}
+
+
+.search-group {
+    display: flex;
+    align-items: center;
+    max-width: 360px;        
+    flex: 1;
+    height: 45px; 
+}
+
+.search-box {
+    width: 100%;
+    height: 100%; 
+    padding: 0 15px;
+    border-radius: 8px 0 0 8px;
+    border: 2px solid var(--border-color); 
+    border-right: none; 
+    background-color: var(--input-bg); 
+    color: white;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.search-box:focus {
+    border-color: #f60404;
+}
+
+.submit-search-btn {
+    background-color: #f60404; 
+    border: 2px solid #f60404;
+    color: white;
+    padding: 0 20px;
+    height: 100%; 
+    border-radius: 0 8px 8px 0; 
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+    white-space: nowrap; 
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.submit-search-btn:hover {
+    background-color: #ff2424;     
+    border-color: #ff2424;
+    box-shadow: 0 0 12px rgba(246, 4, 4, 0.5); 
+}
+
+.map-btn, .sort-btn {
+    height: 45px;           
+    padding: 0 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    white-space: nowrap;    
+    transition: background 0.2s;
+}
+
+.map-btn:hover, .sort-btn:hover { 
+    background-color: #424040; 
+}
+
+
+.food-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.map-container {
+    background-color: #24272c;
+    border: 1px solid #333842;
+    border-radius: 12px;
+    height: calc(100vh - 140px);
+    position: sticky;
+    top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.map-placeholder {
+    text-align: center;
+    padding: 20px;
+    color: #abb2bf;
+}
+
+.map-icon { 
+    font-size: 4rem; 
+    display: block; 
+    margin-bottom: 15px; 
+}
+
+.map-placeholder h3 { 
+    color: #ffffff; 
+    margin-bottom: 10px;
+}
+
+
+.consumer-info-banner {
+    display: flex;
+    align-items: center;
+    background-color: #24272c;    
+    border: 1px solid #333842;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;            
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.consumer-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #1a1c20;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.consumer-data {
+    flex: 1;                        
+    text-align: left;
+}
+
+.consumer-name {
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin: 0 0 4px 0;
+}
+
+.consumer-university {
+    color: #abb2bf;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.consumer-points-badge {
+    background-color: #15171a;
+    border: 1px solid #000000;      
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+}
+
+.points-label {
+    color: #abb2bf;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.points-count {
+    color: #ffffff;                 
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.user-avatar-upload {
+    width: 60px;
+    height: 60px;
+    background-color: #1a1c20;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8rem;
+    margin-right: 20px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden; 
+    border: 2px dashed #333842; 
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+}
+
+.user-avatar-upload:hover {
+    border-color: #565555; 
+}
+
+
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr; 
+    }
+    .map-container {
+        height: 350px;
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    .consumer-info-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    .consumer-data {
+        text-align: center;
+    }
+    .consumer-avatar {
+        margin-right: 0;
+    }
+    .consumer-points-badge {
+        width: 100%;
+    }
+    .settings-container {
+        padding: 15px;
+    }
+    .setting-item {
+        padding: 15px;
+    }
+    .setting-icon {
+        margin-right: 15px;
+    }
+}

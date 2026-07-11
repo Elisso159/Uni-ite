@@ -1,0 +1,29 @@
+[
+    {
+        "email": "student@university.gr",
+        "password": "password123",
+        "name": "Γιάννης",
+        "property": "student"
+    },
+
+    {
+        "email": "student2@university.gr",
+        "password": "password456",
+        "name": "Γιώργος",
+        "property": "student"
+    },
+
+    {
+        "email": "student3@university.gr",
+        "password": "password678",
+        "name": "Άννα",
+        "property": "student"
+    },
+
+    {
+        "email": "admin@university.gr",
+        "password": "admin",
+        "name": "Μαρία",
+        "property": "admin"
+    }
+]
