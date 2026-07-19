@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBite - Λεπτομέρειες Παραγγελίας</title>
+    <link rel="stylesheet" href="reservation_meal.css"> </head>
+<body class="cook-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">UniBite🍖</div>
+    </nav>
+
+    <main class="main-content cook-main-content">
+        <section class="feed-section">
+            <div class="card form-card">
+                <h2 class="page-title form-title" style="color: #a8a8a9;">Επιβεβαίωση Παραγγελίας</h2>
+                
+                <div id="orderDetailsContainer" class="order-details-container"></div>
+
+                <div class="form-actions-btn" style="margin-top: 20px;">
+                    <button id="confirmOrderBtn" class="submit-search-btn form-submit-btn">Οριστική Επιβεβαίωση</button>
+                    <div class="back-link-wrapper">
+                        <a href="javascript:history.back()" class="back-to-dashboard">Ακύρωση και επιστροφή</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="reservation_meal.js"></script>
+</body>
+</html>
