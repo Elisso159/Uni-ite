@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBite - Δημιουργία Αγγελίας</title>
+    <link rel="stylesheet" href="style_ad.css">
+</head>
+<body class="cook-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">UniBite🍖</div>
+    </nav>
+
+    <main class="main-content cook-main-content">
+        
+        <section class="feed-section">
+
+            <div class="card form-card">
+                <h2 class="page-title form-title">Δημιουργία Νέας Αγγελίας</h2>
+                
+                <form id="createAdForm" action="/submit-ad" method="POST" enctype="multipart/form-data" class="ad-form">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Τίτλος Γεύματος</label>
+                        <input type="text" name="title" class="search-box form-input" required placeholder="π.χ. Παστίτσιο, Φασολάκια">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Φωτογραφία (Προαιρετικά)</label>
+                        <input type="file" name="photo" class="form-input file-input" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Σημείο Παράδοσης (Διεύθυνση)</label>
+                        <input type="text" id="adLocation"name="location" class="search-box form-input" required placeholder="π.χ. Μαιζώνος 120 Πάτρα 26221 ">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ώρα Παραλαβής</label>
+                        <input type="time" name="delivery_time" class="search-box form-input time-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Μερίδες</label>
+                        <input type="number" name="servings" class="search-box form-input" min="1" value="1" required placeholder="π.χ. 2">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ελεύθερες Σημειώσεις</label>
+                        <textarea name="notes" class="search-box form-textarea" placeholder="Περιγράψτε το γεύμα, υλικά κλπ..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Αλλεργιογόνα (π.χ. Ξηροί καρποί, Γλουτένη):</label>
+                        <input type="text" name="allergens" class="search-box form-input" placeholder="π.χ. Γαλακτοκομικά, Ίχνη ξηρών καρπών">
+                    </div>
+
+                    <div class="form-actions-btn">
+                        <button type="submit" class="submit-search-btn form-submit-btn">Δημοσίευση Αγγελίας</button>
+                        <div class="back-link-wrapper">
+                            <a href="../cook.html" class="back-to-dashboard">Ακύρωση</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+    </main>
+    <script src="create_ad.js"></script>
+</body>
+</html>
