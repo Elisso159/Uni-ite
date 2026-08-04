@@ -1,0 +1,50 @@
+[
+    {
+    "email": "student@university.gr",
+    "password": "123",
+    "property": "student",
+    "fullname": "Μιχάλης Παπαδόπουλος",
+    "university": "uoa",
+    "points": "30"
+    },
+
+    {
+    "email": "student4@university.gr",
+    "password": "1234",
+    "property": "student",
+    "fullname": "Άννα Παπαδοπούλου",
+    "university": "aueb",
+    "points": "10"
+    },
+
+
+    {
+    "email": "student5@university.gr",
+    "password": "1234",
+    "property": "student",
+    "fullname": "Κώστας Ιωάννου",
+    "university": "ntua",
+    "points": "5"
+    },
+
+
+    {
+        "email": "student2@university.gr",
+        "password": "password456",
+        "property": "student",
+        "fullname": "Γιώργος Ιωάννου",
+        "university": "uoc",
+        "points": "5"
+    },
+
+    {
+        "email": "student3@university.gr",
+        "password": "password789",
+        "property": "admin",
+        "fullname": "Μαρία Κώστα",
+        "university": "up"
+    }
+
+
+
+]
