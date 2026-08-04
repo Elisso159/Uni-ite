@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBite - Αρχική Φοιτητή</title>
+    <link rel="stylesheet" href="consumer_style.css">
+</head>
+<body class="consumer-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">UniBite🍖</div>
+        <div class="nav-wallet">
+            <a href="../../settings/settings_consumer.html" class="nav-logout-btn">Settings</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        
+        <section class="feed-section">
+
+            <div class="consumer-info-banner">
+                <label class="user-avatar-upload">
+                    <span id="image-placeholder"></span>
+                    <img id="userAvatarImg" src="" alt="Avatar" style="display:none">
+                </label>
+                
+
+
+                <div class="consumer-data">
+                    <h3 class="consumer-name" id="consumerName"></h3>
+                    <p class="consumer-university" id="consumerUniversity"></p>
+                </div>
+                <div class="consumer-points-badge">
+                    <span class="points-label">Διαθέσιμοι Πόντοι</span>
+                    <strong class="points-count" id="userPoints"></strong>
+                </div>
+            </div>
+            
+            <div class="filters-bar">
+                <div class="search-group">
+                    <input type="text" class="search-box" placeholder="Αναζήτηση γεύματος">
+                    <button class="submit-search-btn">Βρες Γεύμα</button>
+                </div>
+            
+
+                <a href="map/map.html" class="map-btn" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">Εμφάνιση Χάρτη Γευμάτων</a>
+                
+                <button class="sort-btn" id="sortByDistanceBtn">Ταξινόμηση βάσει Απόστασης</button>
+            </div>
+
+            <h2 class="page-title">Διαθέσιμα Γεύματα στην Περιοχή σου</h2>
+            <div class="food-list" id="foodFeedContainer">
+                
+                <p class="loading-text" style="color: #abb2bf; font-style: italic;"></p>
+
+            </div>
+        </section>
+    </main>
+    <script src="consumer.js"></script>
+</body>
+</html>
