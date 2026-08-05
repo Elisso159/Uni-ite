@@ -45,18 +45,15 @@ document.getElementById('createAdForm').addEventListener('submit', async (e) => 
     submitBtn.innerText = "Αναζήτηση τοποθεσίας & αποθήκευση...";
     submitBtn.disabled = true;
 
-    // 1. Λήψη Συντεταγμένων
     const coords = await getCoordinates(locationInput);
 
     if (coords) {
-        // 2. Επεξεργασία Εικόνας (μετατροπή σε Base64 μέσω FileReader)
         const photoInput = document.querySelector('input[name="photo"]');
         let imageDataUrl = '';
 
         if (photoInput && photoInput.files && photoInput.files[0]) {
             const selectedFile = photoInput.files[0];
 
-            // Έλεγχος αν η εικόνα είναι >2MB για προστασία του localStorage
             if (selectedFile.size > 2 * 1024 * 1024) {
                 alert("Η εικόνα είναι πολύ μεγάλη! Παρακαλώ επιλέξτε μια εικόνα κάτω από 2MB.");
                 submitBtn.innerText = originalBtnText;
@@ -72,27 +69,22 @@ document.getElementById('createAdForm').addEventListener('submit', async (e) => 
             });
         }
 
-        // 3. Λήψη στοιχείων χρήστη & φόρμας
         const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || { university: "upatras", fullname: "Φοιτητής" };
         const userUniKey = currentUser.university ? currentUser.university.toLowerCase() : "upatras";
 
-        const timeFrom = document.querySelector('input[name="delivery_time_from"]').value;
-        const timeTo = document.querySelector('input[name="delivery_time_to"]').value;
-        const formattedDeliverySlot = `${timeFrom} - ${timeTo}`;
-
         const adCity = universityCities[userUniKey] || "Άγνωστο";
 
-        // 4. Δημιουργία Αντικειμένου Αγγελίας
         const newAd = {
             id: Date.now(), 
             createdAt: Date.now(),
             title: document.querySelector('input[name="title"]').value,
-            delivery_time: formattedDeliverySlot,
+            delivery_timeFrom: document.querySelector('input[name="delivery_time_from"]').value,
+            delivery_timeTo: document.querySelector('input[name="delivery_time_to"]').value,
             servings: parseInt(document.querySelector('input[name="servings"]').value) || 1,
             notes: document.querySelector('textarea[name="notes"]').value || "",
             allergens: document.querySelector('input[name="allergens"]').value || "",
             address: locationInput,
-            image: imageDataUrl, // 🖼️ Εδώ αποθηκεύεται το Base64 string
+            image: imageDataUrl, 
             lat: coords.lat,
             lng: coords.lng,
             university: userUniKey,
@@ -100,16 +92,25 @@ document.getElementById('createAdForm').addEventListener('submit', async (e) => 
             cookName: currentUser.fullname || "Φοιτητής"
         };
         
-        // 5. Αποθήκευση στο localStorage
         try {
-            let savedAds = JSON.parse(localStorage.getItem('allAds')) || [];
-            savedAds.push(newAd);
-            localStorage.setItem('allAds', JSON.stringify(savedAds));
+            const response = await fetch('http://localhost:3000/api/ads', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newAd)
+            });
 
-            alert("Η αγγελία δημιουργήθηκε με επιτυχία!");
-            window.location.href = "../cook.html"; 
+            if (response.ok) {
+                alert("Η αγγελία δημιουργήθηκε με επιτυχία!");
+                window.location.href = "../cook.html";
+            } else {
+                const errData = await response.json();
+                alert(`Αποτυχία αποθήκευσης: ${errData.message || 'Σφάλμα διακομιστή'}`);
+            }
         } catch (error) {
-            alert("Το localStorage είναι γεμάτο! Δοκιμάστε να ανεβάσετε μια μικρότερη φωτογραφία.");
+            console.error("Σφάλμα σύνδεσης:", error);
+            alert("Αδυναμία επικοινωνίας με τον διακομιστή. Βεβαιωθείτε ότι ο Node.js server τρέχει.");
         }
     }
 

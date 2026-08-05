@@ -3,9 +3,9 @@ const UNI_COORDINATES = {
     "ntua": { lat: 37.9765, lng: 23.7853 },     
     "panteion": { lat: 37.9606, lng: 23.7183 },  
     "aua": { lat: 37.9836, lng: 23.7049 },      
-    "hua": { lat: 37.9612, lng: 23.7086 },       
-    "unipi": { lat: 37.9415, lng: 23.6529 },     
-    "uniwa": { lat: 38.0294, lng: 23.6739 },     
+    "hua": { lat: 37.9612, lng: 23.7086 },      
+    "unipi": { lat: 37.9415, lng: 23.6529 },    
+    "uniwa": { lat: 38.0294, lng: 23.6739 },    
     "asfa": { lat: 37.9701, lng: 23.6847 },      
     "auth": { lat: 40.6325, lng: 22.9520 },      
     "uom": { lat: 40.6248, lng: 22.9601 },       
@@ -24,8 +24,21 @@ const UNI_COORDINATES = {
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 🟢 Βελτίωση 1: Έλεγχος και στα 2 storages για τον χρήστη
+// Συνάρτηση για την ανάκτηση των αγγελιών από το Backend 
+async function fetchAdsFromServer() {
+    try {
+        const response = await fetch('http://localhost:3000/api/ads');
+        if (!response.ok) {
+            throw new Error(`Server status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Σφάλμα κατά την ανάκτηση των αγγελιών:", error);
+        return [];
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) 
                      || JSON.parse(localStorage.getItem('currentUser')) 
                      || {};
@@ -37,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('consumerUniversity')) document.getElementById('consumerUniversity').textContent = currentUser.university.toUpperCase();
     if (document.getElementById('userPoints')) document.getElementById('userPoints').textContent = currentUser.points || 0;
 
-    loadAvailableMeals(currentUser);
+    await loadAvailableMeals(currentUser);
 
     const sortBtn = document.getElementById('sortByDistanceBtn');
     if (sortBtn) {
-        sortBtn.addEventListener('click', () => {
-            sortMealsByUniLocation(currentUser);
+        sortBtn.addEventListener('click', async () => {
+            await sortMealsByUniLocation(currentUser);
         });
     }
 });
@@ -59,18 +72,17 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c; 
 }
 
-function loadAvailableMeals(currentUser) {
+async function loadAvailableMeals(currentUser) {
     const feedContainer = document.getElementById('foodFeedContainer');
     if (!feedContainer) return;
 
-    const allAds = JSON.parse(localStorage.getItem('allAds')) || [];
+    const allAds = await fetchAdsFromServer();
     
     const localMeals = allAds.filter(ad => {
         const hasServings = Number(ad.servings) > 0;
         const currentName = (currentUser.fullname || "Φοιτητής").trim().toLowerCase();
         const adCookName = (ad.cookName || "Φοιτητής").trim().toLowerCase();
         
-        // Δεν δείχνουμε τις δικές μας αγγελίες & δείχνουμε μόνο όσες έχουν μερίδες
         return hasServings && (adCookName !== currentName);
     });
 
@@ -109,7 +121,7 @@ function loadAvailableMeals(currentUser) {
     });
 }
 
-function sortMealsByUniLocation(currentUser) {
+async function sortMealsByUniLocation(currentUser) {
     const feedContainer = document.getElementById('foodFeedContainer');
     const userUniKey = currentUser.university ? currentUser.university.toLowerCase() : "";
     const uniCoords = UNI_COORDINATES[userUniKey];
@@ -119,7 +131,7 @@ function sortMealsByUniLocation(currentUser) {
         return;
     }
 
-    const allAds = JSON.parse(localStorage.getItem('allAds')) || [];
+    const allAds = await fetchAdsFromServer();
     
     let meals = allAds.filter(ad => {
         const hasServings = Number(ad.servings) > 0;
