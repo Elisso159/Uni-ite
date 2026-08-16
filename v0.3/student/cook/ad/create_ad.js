@@ -1,12 +1,3 @@
-const universityCities = {
-    "uoa": "Αθήνα", "ntua": "Αθήνα", "panteion": "Αθήνα", "aueb": "Αθήνα", 
-    "aua": "Αθήνα", "hua": "Αθήνα", "unipi": "Πειραιάς", "uniwa": "Αθήνα", "asfa": "Αθήνα",
-    "auth": "Θεσσαλονίκη", "uom": "Θεσσαλονίκη", "ihu": "Θεσσαλονίκη",
-    "upatras": "Πάτρα", "uoi": "Ιωάννινα", "duth": "Κομοτηνή", "uoc": "Ηράκλειο", 
-    "tuc": "Χανιά", "uth": "Βόλος", "aegean": "Μυτιλήνη", "ionio": "Κέρκυρα", 
-    "uop": "Τρίπολη", "uowm": "Κοζάνη"
-};
-
 async function getCoordinates(address) {
     const searchQuery = `${address}, Greece`; 
     const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(searchQuery)}`;
@@ -73,13 +64,29 @@ document.getElementById('createAdForm').addEventListener('submit', async (e) => 
         const userUniKey = currentUser.university ? currentUser.university.toLowerCase() : "upatras";
 
         const adCity = universityCities[userUniKey] || "Άγνωστο";
+        
+        const pickupInput = document.querySelector('input[name="pickup_date"]');
+        const delivery_timeFrom = document.querySelector('input[name="delivery_time_from"]').value;
+        const delivery_timeTo = document.querySelector('input[name="delivery_time_to"]').value;
 
-        const newAd = {
-            id: Date.now(), 
+        if(pickupInput && delivery_timeFrom && delivery_timeTo){
+            const dateTimeFrom = '${pickupInput}T${delivery_timeFrom}';
+            const dateTimeTo = '${pickupInput}T${delivery_timeTo}';
+
+            combinedTimeFrom = new Date(dateTimeFrom).toISOString();
+            compinedTimeTo = new Date(dateTimeTo).toISOString();
+
+            //console.log(combinedTimeFrom);
+        }
+
+
+
+
+        const newAd = { 
             createdAt: Date.now(),
             title: document.querySelector('input[name="title"]').value,
-            delivery_timeFrom: document.querySelector('input[name="delivery_time_from"]').value,
-            delivery_timeTo: document.querySelector('input[name="delivery_time_to"]').value,
+            delivery_datetimeFrom: combinedTimeFrom,
+            delivery_datetimeTo: compinedTimeTo,
             servings: parseInt(document.querySelector('input[name="servings"]').value) || 1,
             notes: document.querySelector('textarea[name="notes"]').value || "",
             allergens: document.querySelector('input[name="allergens"]').value || "",
@@ -87,9 +94,7 @@ document.getElementById('createAdForm').addEventListener('submit', async (e) => 
             image: imageDataUrl, 
             lat: coords.lat,
             lng: coords.lng,
-            university: userUniKey,
-            city: adCity, 
-            cookName: currentUser.fullname || "Φοιτητής"
+            university: userUniKey
         };
         
         try {

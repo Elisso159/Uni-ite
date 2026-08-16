@@ -53,20 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // Γέμισμα των inputs με τις υπάρχουσες τιμές
     document.querySelector('input[name="title"]').value = adToEdit.title || "";
     document.getElementById('adLocation').value = adToEdit.address || "";
     
-    if (adToEdit.delivery_time && adToEdit.delivery_time.includes('-')) {
-        const timeParts = adToEdit.delivery_time.split('-').map(t => t.trim());
-        if (document.querySelector('input[name="delivery_time_from"]')) {
-            document.querySelector('input[name="delivery_time_from"]').value = timeParts[0] || "";
+    // Ανάκτηση ημερομηνίας και ώρας
+    if (adToEdit.delivery_datetimeFrom) {
+        const dateObj = new Date(adToEdit.delivery_datetimeFrom);
+        const pickupInput = document.querySelector('input[name="pickup_date"]');
+        if (pickupInput) {
+            pickupInput.value = dateObj.toISOString().split('T')[0];
         }
-        if (document.querySelector('input[name="delivery_time_to"]')) {
-            document.querySelector('input[name="delivery_time_to"]').value = timeParts[1] || "";
+        
+        const timeFromInput = document.querySelector('input[name="delivery_time_from"]');
+        if (timeFromInput) {
+            timeFromInput.value = dateObj.toTimeString().substring(0, 5);
         }
-    } else {
-        if (document.querySelector('input[name="delivery_time_from"]')) {
-            document.querySelector('input[name="delivery_time_from"]').value = adToEdit.delivery_time || "";
+    }
+
+    if (adToEdit.delivery_datetimeTo) {
+        const dateObjTo = new Date(adToEdit.delivery_datetimeTo);
+        const timeToInput = document.querySelector('input[name="delivery_time_to"]');
+        if (timeToInput) {
+            timeToInput.value = dateObjTo.toTimeString().substring(0, 5);
         }
     }
 
@@ -92,42 +101,89 @@ document.getElementById('editAdForm').addEventListener('submit', async (e) => {
 
     const coords = await getCoordinates(locationInput);
 
-    submitBtn.innerText = originalBtnText;
-    submitBtn.disabled = false;
-
     if (coords) {
+        const photoInput = document.querySelector('input[name="photo"]');
+        let imageDataUrl = '';
+
+        if (photoInput && photoInput.files && photoInput.files[0]) {
+            const selectedFile = photoInput.files[0];
+            if (selectedFile.size <= 2 * 1024 * 1024) {
+                imageDataUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => resolve(event.target.result);
+                    reader.onerror = () => resolve('');
+                    reader.readAsDataURL(selectedFile);
+                });
+            }
+        }
+
+        const pickupInput = document.querySelector('input[name="pickup_date"]')?.value || new Date().toISOString().split('T')[0];
+        const delivery_timeFrom = document.querySelector('input[name="delivery_time_from"]')?.value || "12:00";
+        const delivery_timeTo = document.querySelector('input[name="delivery_time_to"]')?.value || "14:00";
+
+        let combinedTimeFrom = "";
+        let combinedTimeTo = "";
+
+        if (pickupInput && delivery_timeFrom && delivery_timeTo) {
+            const dateTimeFromStr = `${pickupInput}T${delivery_timeFrom}`;
+            const dateTimeToStr = `${pickupInput}T${delivery_timeTo}`;
+
+            combinedTimeFrom = new Date(dateTimeFromStr).toISOString();
+            combinedTimeTo = new Date(dateTimeToStr).toISOString();
+        }
+
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || { university: "upatras" };
+        const userUniKey = currentUser.university ? currentUser.university.toLowerCase() : "upatras";
+
         let allAds = JSON.parse(localStorage.getItem('allAds')) || [];
         const adIndex = allAds.findIndex(ad => ad.id === editAdId);
 
+        const updatedAd = {
+            ...(adIndex !== -1 ? allAds[adIndex] : {}),
+            id: editAdId,
+            title: document.querySelector('input[name="title"]').value,
+            delivery_datetimeFrom: combinedTimeFrom,
+            delivery_datetimeTo: combinedTimeTo,
+            servings: parseInt(document.querySelector('input[name="servings"]').value) || 1,
+            notes: document.querySelector('textarea[name="notes"]').value || "",
+            allergens: document.querySelector('input[name="allergens"]').value || "",
+            address: locationInput,
+            image: imageDataUrl || (adIndex !== -1 ? allAds[adIndex].image : ""),
+            lat: coords.lat,
+            lng: coords.lng,
+            university: userUniKey
+        };
+
         if (adIndex !== -1) {
-            const timeFrom = document.querySelector('input[name="delivery_time_from"]').value;
-            const timeTo = document.querySelector('input[name="delivery_time_to"]').value;
-            const formattedDeliverySlot = `${timeFrom} - ${timeTo}`;
-
-            const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || {};
-            const userUniKey = currentUser.university ? currentUser.university.toLowerCase() : "upatras";
-            const updatedCity = universityCities[userUniKey] || allAds[adIndex].city || "Άγνωστο";
-
-            allAds[adIndex] = {
-                ...allAds[adIndex], 
-                title: document.querySelector('input[name="title"]').value,
-                delivery_time: formattedDeliverySlot,
-                servings: parseInt(document.querySelector('input[name="servings"]').value) || 1,
-                notes: document.querySelector('textarea[name="notes"]').value || "",
-                allergens: document.querySelector('input[name="allergens"]').value || "",
-                address: locationInput,
-                lat: coords.lat,
-                lng: coords.lng,
-                city: updatedCity
-            };
-
+            allAds[adIndex] = updatedAd;
             localStorage.setItem('allAds', JSON.stringify(allAds));
-            sessionStorage.removeItem('editAdId');
+        }
 
-            alert("Η αγγελία ενημερώθηκε με επιτυχία!");
+        try {
+            const response = await fetch(`http://localhost:3000/api/ads/${editAdId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedAd)
+            });
+
+            if (response.ok) {
+                sessionStorage.removeItem('editAdId');
+                alert("Η αγγελία ενημερώθηκε με επιτυχία!");
+                window.location.href = "../cook.html";
+            } else {
+                const errData = await response.json();
+                alert(`Αποτυχία ενημέρωσης στο server: ${errData.message || 'Σφάλμα διακομιστή'}`);
+            }
+        } catch (error) {
+            console.error("Σφάλμα σύνδεσης:", error);
+            sessionStorage.removeItem('editAdId');
+            alert("Η αγγελία ενημερώθηκε τοπικά (Local Storage).");
             window.location.href = "../cook.html";
-        } else {
-            alert("Σφάλμα: Η αγγελία δεν βρέθηκε για να ενημερωθεί.");
         }
     }
+
+    submitBtn.innerText = originalBtnText;
+    submitBtn.disabled = false;
 });

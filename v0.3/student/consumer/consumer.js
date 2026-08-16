@@ -24,7 +24,7 @@ const UNI_COORDINATES = {
 
 const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=80';
 
-// Συνάρτηση για την ανάκτηση των αγγελιών από το Backend 
+// Aνάκτηση των αγγελιών από το Backend 
 async function fetchAdsFromServer() {
     try {
         const response = await fetch('http://localhost:3000/api/ads');
@@ -36,6 +36,18 @@ async function fetchAdsFromServer() {
         console.error("Σφάλμα κατά την ανάκτηση των αγγελιών:", error);
         return [];
     }
+}
+
+// Mορφοποίηση ώρας παραλαβής
+function formatDeliveryTime(ad) {
+    if (ad.delivery_datetimeFrom && ad.delivery_datetimeTo) {
+        const fromDate = new Date(ad.delivery_datetimeFrom);
+        const toDate = new Date(ad.delivery_datetimeTo);
+        const fromTime = fromDate.toTimeString().substring(0, 5);
+        const toTime = toDate.toTimeString().substring(0, 5);
+        return `${fromTime} - ${toTime}`;
+    }
+    return ad.delivery_time || "Δεν ορίστηκε";
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -51,11 +63,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (document.getElementById('userPoints')) document.getElementById('userPoints').textContent = currentUser.points || 0;
 
     await loadAvailableMeals(currentUser);
+    loadAcceptedRequests(currentUser);
 
     const sortBtn = document.getElementById('sortByDistanceBtn');
     if (sortBtn) {
         sortBtn.addEventListener('click', async () => {
             await sortMealsByUniLocation(currentUser);
+        });
+    }
+
+    // Αναζήτηση γεύματος
+    const searchBtn = document.querySelector('.submit-search-btn');
+    const searchInput = document.querySelector('.search-box');
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', async () => {
+            const query = searchInput.value.trim().toLowerCase();
+            await loadAvailableMeals(currentUser, query);
         });
     }
 });
@@ -72,19 +95,23 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c; 
 }
 
-async function loadAvailableMeals(currentUser) {
+async function loadAvailableMeals(currentUser, searchQuery = "") {
     const feedContainer = document.getElementById('foodFeedContainer');
     if (!feedContainer) return;
 
     const allAds = await fetchAdsFromServer();
     
-    const localMeals = allAds.filter(ad => {
+    let localMeals = allAds.filter(ad => {
         const hasServings = Number(ad.servings) > 0;
         const currentName = (currentUser.fullname || "Φοιτητής").trim().toLowerCase();
         const adCookName = (ad.cookName || "Φοιτητής").trim().toLowerCase();
         
         return hasServings && (adCookName !== currentName);
     });
+
+    if (searchQuery) {
+        localMeals = localMeals.filter(ad => ad.title && ad.title.toLowerCase().includes(searchQuery));
+    }
 
     if (localMeals.length === 0) {
         feedContainer.innerHTML = '<p class="loading-text" style="color: #abb2bf; font-style: italic;">Δεν υπάρχουν διαθέσιμα γεύματα.</p>';
@@ -99,6 +126,7 @@ async function loadAvailableMeals(currentUser) {
         mealCard.style.cursor = 'pointer';
 
         const imgSrc = (ad.image && ad.image.trim() !== '') ? ad.image : DEFAULT_IMAGE;
+        const deliveryTimeStr = formatDeliveryTime(ad);
 
         mealCard.innerHTML = `
             <div class="meal-content-wrapper" style="display: flex; gap: 15px; align-items: center;">
@@ -111,7 +139,7 @@ async function loadAvailableMeals(currentUser) {
                     <h3 class="meal-title">${ad.title}</h3>
                     <p class="meal-portions"><b>Από:</b> ${ad.cookName || 'Φοιτητής'}</p>
                     <p class="meal-portions"><b>Διεύθυνση:</b> ${ad.address}</p>
-                    <p class="meal-portions"><b>Ώρα Παραλαβής:</b> ${ad.delivery_time}</p>
+                    <p class="meal-portions"><b>Ώρα Παραλαβής:</b> ${deliveryTimeStr}</p>
                     <p class="meal-portions"><b>Μερίδες:</b> ${ad.servings}</p>
                     ${ad.allergens ? `<p class="meal-portions" style="color: #ff6b6b;"><b>Αλλεργιογόνα:</b> ${ad.allergens}</p>` : ''}
                 </div>
@@ -145,12 +173,10 @@ async function sortMealsByUniLocation(currentUser) {
         return;
     }
 
-    // Υπολογισμός απόστασης για κάθε αγγελία
     meals.forEach(ad => {
         ad.computedDistance = calculateDistance(uniCoords.lat, uniCoords.lng, ad.lat, ad.lng);
     });
 
-    // Ταξινόμηση από τη μικρότερη στη μεγαλύτερη απόσταση
     meals.sort((a, b) => a.computedDistance - b.computedDistance);
 
     feedContainer.innerHTML = ''; 
@@ -166,6 +192,7 @@ async function sortMealsByUniLocation(currentUser) {
             : '';
 
         const imgSrc = (ad.image && ad.image.trim() !== '') ? ad.image : DEFAULT_IMAGE;
+        const deliveryTimeStr = formatDeliveryTime(ad);
 
         mealCard.innerHTML = `
             <div class="meal-content-wrapper" style="display: flex; gap: 15px; align-items: center;">
@@ -178,13 +205,49 @@ async function sortMealsByUniLocation(currentUser) {
                     <h3 class="meal-title">${ad.title} ${displayDist}</h3>
                     <p class="meal-portions"><b>Από:</b> ${ad.cookName || 'Φοιτητής'}</p>
                     <p class="meal-portions"><b>Διεύθυνση:</b> ${ad.address}</p>
-                    <p class="meal-portions"><b>Ώρα Παραλαβής:</b> ${ad.delivery_time}</p>
+                    <p class="meal-portions"><b>Ώρα Παραλαβής:</b> ${deliveryTimeStr}</p>
                     <p class="meal-portions"><b>Μερίδες:</b> ${ad.servings}</p>
                     ${ad.allergens ? `<p class="meal-portions" style="color: #ff6b6b;"><b>Αλλεργιογόνα:</b> ${ad.allergens}</p>` : ''}
                 </div>
             </div>
         `;
         feedContainer.appendChild(mealCard);
+    });
+}
+//Φόρτωση αποδεκτών αιτημάτων
+function loadAcceptedRequests(currentUser) {
+    const reqContainer = document.getElementById('foodRequests');
+    if (!reqContainer) return;
+
+    const allRequests = JSON.parse(localStorage.getItem('allRequests')) || [];
+    const currentConsumerName = (currentUser.fullname || "").trim().toLowerCase();
+
+    const myAcceptedRequests = allRequests.filter(req => {
+        const reqConsumer = (req.consumerName || "").trim().toLowerCase();
+        const isAccepted = String(req.status).toLowerCase() === 'accepted';
+        return reqConsumer === currentConsumerName && isAccepted;
+    });
+
+    if (myAcceptedRequests.length === 0) {
+        reqContainer.innerHTML = '<p class="loading-text" style="color: #abb2bf; font-style: italic;">Δεν έχετε αποδεκτές κρατήσεις...</p>';
+        return;
+    }
+
+    reqContainer.innerHTML = '';
+    myAcceptedRequests.forEach(req => {
+        const card = document.createElement('div');
+        card.className = 'card shared-meal-card';
+        card.style.borderLeft = '4px solid #ffff';
+
+        card.innerHTML = `
+            <div class="meal-info">
+                <h3 class="meal-title">${req.adTitle || 'Γεύμα'}</h3>
+                <p class="meal-portions"><b>Μάγειρας:</b> ${req.cookName || 'Φοιτητής'}</p>
+                <p class="meal-portions"><b>Μερίδες:</b> ${req.requestedServings || 1}</p>
+                <p class="meal-portions" style="color: #ffff;"><b>Κατάσταση:</b> Εγκεκριμένο για παραλαβή</p>
+            </div>
+        `;
+        reqContainer.appendChild(card);
     });
 }
 
