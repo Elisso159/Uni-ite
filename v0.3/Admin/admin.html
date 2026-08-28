@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Διαχείριση</title>
+    <link rel="stylesheet" href="admin_style.css">
+</head>
+<body class="admin-body">
+
+    <nav class="navbar">
+        <div class="nav-logo">UniBite🍖 <span class="admin-badge"></span></div>
+        <a href="../settings/settings_admin.html" class="nav-logout-btn">Settings</a>
+    </nav>
+
+    <main class="admin-wrapper">
+        <h1 class="main-title">Admin Dashboard</h1>
+
+        <section class="card stats">
+            <h2>Στατιστικά Μήνα</h2>
+            <p>Συνολικές Μερίδες: <strong id="portions-count">Φόρτωση...</strong></p>
+        </section>
+
+        <div class="grid-container">
+            
+            <section class="card">
+                <h2>Top Donor Φοιτητής</h2>
+                <div class="highlight">
+                    <p id="top-donor-name">-</p>
+                    <p>Μερίδες: <span id="top-donor-portions">0</span></p>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3>Top Γεύματα</h3>
+                <ul id="top-meals-list"></ul>
+              </div>
+            </section>
+            
+        </div>
+    </main>
+    <script src="admin.js"></script>
+</body>
+</html>
