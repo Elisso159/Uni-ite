@@ -7,7 +7,7 @@ app.use(express.json());
 const pool = mysql.createPool({
   host: '127.0.0.1',
   user: 'root',
-  password: '703d1bed99E!', 
+  password: '********', 
   database: 'unibite_db',
   waitForConnections: true,
   connectionLimit: 10
