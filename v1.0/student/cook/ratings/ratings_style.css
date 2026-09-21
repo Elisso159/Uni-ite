@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+:root {
+    --bg-dark: #1a1c20;          
+    --container-bg: #24272c;       
+    --vibrant-red: #ff1e1e;        
+    --vibrant-hover: #d60000;     
+    --text-white: #ffffff;        
+    --text-muted: #abb2bf;        
+    --input-bg: #15171a;          
+    --border-color: #3e4451;       
+    --star-gold: #ffc107;
+}
+
+body, .settings-body, .ratings-body {
+    background-color: var(--bg-dark);      
+    display: flex;
+    justify-content: center;        
+    align-items: flex-start;        
+    min-height: 100vh;
+    padding-top: 40px; 
+    padding-bottom: 40px;            
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+}
+
+.settings-container, .ratings-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.settings-header, .ratings-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.logo-student {
+    color: var(--vibrant-red);
+}
+
+.settings-subtitle, .ratings-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-top: 8px;
+}
+
+
+.settings-list, .ratings {
+    background-color: var(--container-bg);      
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #333842;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    text-decoration: none;
+    border-bottom: 1px solid #333842;
+    transition: background-color 0.2s ease;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item:hover {
+    background-color: #2c313a;      
+}
+
+.setting-icon {
+    width: 55px;
+    height: 55px;
+    background-color: var(--vibrant-red);   
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    margin-right: 15px;
+    flex-shrink: 0;               
+}
+
+.setting-text {
+    flex: 1;                        
+    text-align: left;
+}
+
+.setting-text h3 {
+    color: var(--text-white);
+    font-size: 1.1rem;
+    margin: 0 0 4px 0;
+}
+
+.setting-text p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 3px 0;
+    line-height: 1.4;
+}
+
+.arrow-indicator {
+    color: var(--border-color);
+    font-size: 1rem;
+    font-weight: bold;
+    margin-left: 15px;
+}
+
+
+.rating-container {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px dashed #333842;
+    width: 100%;
+}
+
+.rating-title {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.stars-wrapper {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.star {
+    font-size: 1.4rem;
+    color: #4b5263;
+    cursor: pointer;
+    transition: color 0.15s ease, transform 0.15s ease;
+    user-select: none;
+}
+
+.star:hover,
+.star.active {
+    color: var(--star-gold);
+    transform: scale(1.15);
+}
+
+.rating-saved-text {
+    color: #4bac48;
+    font-size: 0.8rem;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.return_to_page {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.return_to_page:hover {
+    color: var(--vibrant-red);                
+}
+
+.back-btn-wrapper {
+    text-align: center;
+    margin-top: 30px; 
+}
+
+.return-btn {
+    display: inline-block;
+    background-color: var(--container-bg);      
+    color: var(--text-muted);                
+    text-decoration: none;
+    padding: 12px 24px;
+    border: 1px solid #333842;      
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.return-btn:hover {
+    color: var(--text-white);                
+    border-color: var(--vibrant-red);          
+    background-color: var(--input-bg);      
+    box-shadow: 0 4px 15px rgba(246, 4, 4, 0.2); 
+}
+
+
+@media (max-width: 480px) {
+    body, .settings-body, .ratings-body {
+        padding-top: 20px;
+    }
+    .settings-container, .ratings-container {
+        padding: 12px;
+    }
+    .setting-item {
+        padding: 15px;
+    }
+    .setting-icon {
+        margin-right: 12px;
+        width: 48px;
+        height: 48px;
+    }
+    .star {
+        font-size: 1.25rem;
+    }
+}
